@@ -1,0 +1,49 @@
+
+typedef struct _VMINFO
+{
+	DWORD VMEngineEntry;
+	DWORD Contexts[32];
+
+} VMINFO, *PVMINFO;
+
+VMINFO* pVMInfo = NULL;
+
+			pVMInfo = (VMINFO*)MyRtlAllocateHeap(hHeap, HEAP_ZERO_MEMORY, sizeof(VMINFO));
+			for(DWORD i = 0; i < sizeof(pVMInfo->Contexts)/sizeof(DWORD); i++)
+			{
+				pVMInfo->Contexts[i] = (DWORD)MyRtlAllocateHeap(hHeap, HEAP_ZERO_MEMORY, 0x1000);
+			}
+
+DWORD WINAPI SelectVMContextInternal()
+{
+	DWORD i = 0;
+	while(TRUE)
+	{
+		if(*(char*)pVMInfo->Contexts[i] == 0)
+		{
+			return pVMInfo->Contexts[i];
+		}
+		i++;
+		pAPIs->MySleep(0);
+	}
+}
+
+void __declspec(naked) WINAPI VMEntry()
+{
+	_asm
+	{
+		pushad
+		pushfd
+		push cs
+		push ds
+		push es
+		push fs
+		push gs
+		push ss
+		call SelectVMContextInternal
+		mov ebp, eax
+		mov eax, dword ptr [pVMInfo]
+		jmp dword ptr [eax]
+		retn
+	}
+}
