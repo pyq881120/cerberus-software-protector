@@ -165,7 +165,7 @@ CPU_STATUS __INTERNAL_FUNC__ FuncTwo_Jcc_Long_80(PCHAOSVM_CPU pCPU) {
 		pCPU->bOpcodeLength += 1 + 2;
 		bGoto = TRUE;
 	} else {
-		__READ_IMM_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
+		__READ_DATA_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
 		pCPU->bOpcodeLength += 1 + 4;
 	}
 
@@ -225,7 +225,7 @@ CPU_STATUS __INTERNAL_FUNC__ FuncTwo_Jcc_Long_81(PCHAOSVM_CPU pCPU) {
 		pCPU->bOpcodeLength += 1 + 2;
 		bGoto = TRUE;
 	} else {
-		__READ_IMM_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
+		__READ_DATA_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
 		pCPU->bOpcodeLength += 1 + 4;
 	}
 
@@ -285,7 +285,7 @@ CPU_STATUS __INTERNAL_FUNC__ FuncTwo_Jcc_Long_82(PCHAOSVM_CPU pCPU) {
 		pCPU->bOpcodeLength += 1 + 2;
 		bGoto = TRUE;
 	} else {
-		__READ_IMM_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
+		__READ_DATA_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
 		pCPU->bOpcodeLength += 1 + 4;
 	}
 
@@ -345,7 +345,7 @@ CPU_STATUS __INTERNAL_FUNC__ FuncTwo_Jcc_Long_83(PCHAOSVM_CPU pCPU) {
 		pCPU->bOpcodeLength += 1 + 2;
 		bGoto = TRUE;
 	} else {
-		__READ_IMM_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
+		__READ_DATA_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
 		pCPU->bOpcodeLength += 1 + 4;
 	}
 
@@ -405,7 +405,7 @@ CPU_STATUS __INTERNAL_FUNC__ FuncTwo_Jcc_Long_84(PCHAOSVM_CPU pCPU) {
 		pCPU->bOpcodeLength += 1 + 2;
 		bGoto = TRUE;
 	} else {
-		__READ_IMM_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
+		__READ_DATA_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
 		pCPU->bOpcodeLength += 1 + 4;
 	}
 
@@ -465,7 +465,7 @@ CPU_STATUS __INTERNAL_FUNC__ FuncTwo_Jcc_Long_85(PCHAOSVM_CPU pCPU) {
 		pCPU->bOpcodeLength += 1 + 2;
 		bGoto = TRUE;
 	} else {
-		__READ_IMM_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
+		__READ_DATA_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
 		pCPU->bOpcodeLength += 1 + 4;
 	}
 
@@ -525,7 +525,7 @@ CPU_STATUS __INTERNAL_FUNC__ FuncTwo_Jcc_Long_86(PCHAOSVM_CPU pCPU) {
 		pCPU->bOpcodeLength += 1 + 2;
 		bGoto = TRUE;
 	} else {
-		__READ_IMM_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
+		__READ_DATA_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
 		pCPU->bOpcodeLength += 1 + 4;
 	}
 
@@ -585,7 +585,7 @@ CPU_STATUS __INTERNAL_FUNC__ FuncTwo_Jcc_Long_87(PCHAOSVM_CPU pCPU) {
 		pCPU->bOpcodeLength += 1 + 2;
 		bGoto = TRUE;
 	} else {
-		__READ_IMM_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
+		__READ_DATA_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
 		pCPU->bOpcodeLength += 1 + 4;
 	}
 
@@ -645,7 +645,7 @@ CPU_STATUS __INTERNAL_FUNC__ FuncTwo_Jcc_Long_88(PCHAOSVM_CPU pCPU) {
 		pCPU->bOpcodeLength += 1 + 2;
 		bGoto = TRUE;
 	} else {
-		__READ_IMM_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
+		__READ_DATA_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
 		pCPU->bOpcodeLength += 1 + 4;
 	}
 
@@ -705,7 +705,7 @@ CPU_STATUS __INTERNAL_FUNC__ FuncTwo_Jcc_Long_89(PCHAOSVM_CPU pCPU) {
 		pCPU->bOpcodeLength += 1 + 2;
 		bGoto = TRUE;
 	} else {
-		__READ_IMM_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
+		__READ_DATA_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
 		pCPU->bOpcodeLength += 1 + 4;
 	}
 
@@ -765,7 +765,7 @@ CPU_STATUS __INTERNAL_FUNC__ FuncTwo_Jcc_Long_8A(PCHAOSVM_CPU pCPU) {
 		pCPU->bOpcodeLength += 1 + 2;
 		bGoto = TRUE;
 	} else {
-		__READ_IMM_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
+		__READ_DATA_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
 		pCPU->bOpcodeLength += 1 + 4;
 	}
 
@@ -825,7 +825,7 @@ CPU_STATUS __INTERNAL_FUNC__ FuncTwo_Jcc_Long_8B(PCHAOSVM_CPU pCPU) {
 		pCPU->bOpcodeLength += 1 + 2;
 		bGoto = TRUE;
 	} else {
-		__READ_IMM_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
+		__READ_DATA_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
 		pCPU->bOpcodeLength += 1 + 4;
 	}
 
@@ -885,7 +885,7 @@ CPU_STATUS __INTERNAL_FUNC__ FuncTwo_Jcc_Long_8C(PCHAOSVM_CPU pCPU) {
 		pCPU->bOpcodeLength += 1 + 2;
 		bGoto = TRUE;
 	} else {
-		__READ_IMM_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
+		__READ_DATA_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
 		pCPU->bOpcodeLength += 1 + 4;
 	}
 
@@ -945,7 +945,7 @@ CPU_STATUS __INTERNAL_FUNC__ FuncTwo_Jcc_Long_8D(PCHAOSVM_CPU pCPU) {
 		pCPU->bOpcodeLength += 1 + 2;
 		bGoto = TRUE;
 	} else {
-		__READ_IMM_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
+		__READ_DATA_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
 		pCPU->bOpcodeLength += 1 + 4;
 	}
 
@@ -1005,7 +1005,7 @@ CPU_STATUS __INTERNAL_FUNC__ FuncTwo_Jcc_Long_8E(PCHAOSVM_CPU pCPU) {
 		pCPU->bOpcodeLength += 1 + 2;
 		bGoto = TRUE;
 	} else {
-		__READ_IMM_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
+		__READ_DATA_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
 		pCPU->bOpcodeLength += 1 + 4;
 	}
 
@@ -1065,7 +1065,7 @@ CPU_STATUS __INTERNAL_FUNC__ FuncTwo_Jcc_Long_8F(PCHAOSVM_CPU pCPU) {
 		pCPU->bOpcodeLength += 1 + 2;
 		bGoto = TRUE;
 	} else {
-		__READ_IMM_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
+		__READ_DATA_INT32_SAFE__(pCPU, pCPU->bOpcodeLength + 1, dwInt32RelOffset);
 		pCPU->bOpcodeLength += 1 + 4;
 	}
 
