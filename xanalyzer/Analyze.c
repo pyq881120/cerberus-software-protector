@@ -1,6 +1,9 @@
 #include "Analyze.h"
 #include "Support.h"
 
+// 产生流程图路径
+__bool g_bGenProcedureFlowChart;
+
 __bool __INTERNAL_FUNC__ FillAnalyzeBasicInfo(PXFILE_ATTACH_INFO pTarget, PANALYZE_BASIC_INFO pAnalyzeBasicInfo) {
 	PIMAGE_NT_HEADERS pNtHdr = NULL;
 	PIMAGE_SECTION_HEADER pCodeSecHdr = NULL;
@@ -557,8 +560,95 @@ __bool __INTERNAL_FUNC__ Output2XML(PPROGRAM pProgram, __tchar *pResultFilePath)
 	return TRUE;
 }
 
+#define __PROCEDURE_FLOWCHART_DOT__		"flowchart.dot"
+#define __PROCEDURE_FLOWCHART_PIC__		"flowchart.png"
+__bool __INTERNAL_FUNC__ Output2FlowChart(PPROGRAM pProgram, __tchar *pResultDir) {
+	FILE *fp = NULL;
+	PPROCEDURE pProcedure = NULL;
+	__char DotFile[1024] = {0};
+	__char PngFile[1024] = {0};
+	__char CommandFile[1024] = {0};
+
+	UnicodeToAnsi(pResultDir, MAX_PATH, DotFile, 1024);
+	strcat(DotFile, __PROCEDURE_FLOWCHART_DOT__);
+
+	UnicodeToAnsi(pResultDir, MAX_PATH, PngFile, 1024);
+	strcat(PngFile, __PROCEDURE_FLOWCHART_PIC__);
+
+	fp = fopen(DotFile, "w");
+	if (!fp) return FALSE;
+
+	fprintf(fp, "digraph ProcedureFlowChart {\n");
+
+	// 定义节点
+	pProcedure = pProgram->pProcedureList;
+	while (pProcedure) {
+		__char szNode[0x100] = {0};
+
+		if (pProcedure->bEntry) {
+			sprintf(szNode, "NodeWithSize%x[shape=ellipse,label=\"0x%x size=%d\"];\n", pProcedure->addrMemoryStartAddress, pProcedure->addrMemoryStartAddress, pProcedure->iSize);
+			//sprintf(szNode, "Node%x[shape=ellipse,label=\"0x%x\"];\n", pProcedure->addrMemoryStartAddress, pProcedure->addrMemoryStartAddress);
+		} else {
+			sprintf(szNode, "NodeWithSize%x[shape=box,label=\"0x%x size=%d\"];\n", pProcedure->addrMemoryStartAddress, pProcedure->addrMemoryStartAddress, pProcedure->iSize);
+			//sprintf(szNode, "Node%x[shape=box,label=\"0x%x\"];\n", pProcedure->addrMemoryStartAddress, pProcedure->addrMemoryStartAddress);
+		}
+		fprintf(fp, szNode);
+		pProcedure = pProcedure->pNext;
+	}
+
+	// 链接节点
+	pProcedure = pProgram->pProcedureList;
+	while (pProcedure) {
+		PPROCEDURE_REFFROM pProcedureRefFrom = NULL;
+		PPROCEDURE pRef = NULL;
+		
+		pProcedureRefFrom = pProcedure->pProcedureRefForm;
+		while (pProcedureRefFrom) {
+			__char szNode[0x100] = {0};
+
+			pRef = pProcedureRefFrom->pProcedure;			
+			//sprintf(szNode, "Node%x -> Node%x;\n", pRef->addrMemoryStartAddress, pProcedure->addrMemoryStartAddress);
+			sprintf(szNode, "NodeWithSize%x -> NodeWithSize%x;\n", pRef->addrMemoryStartAddress, pProcedure->addrMemoryStartAddress);
+			fprintf(fp, szNode);
+			pProcedureRefFrom = pProcedureRefFrom->pNext;
+		}
+
+		pProcedure = pProcedure->pNext;
+	}
+
+	fprintf(fp, "}\r\n");
+	fclose(fp);
+
+	// 合成命令行
+	UnicodeToAnsi(g_szGraphvizPath, __logic_tcslen__(g_szGraphvizPath), CommandFile, 1024);
+	sprintf(CommandFile, "%s -Tpng %s -o %s", CommandFile, DotFile, PngFile);
+
+	// 执行命令
+	{
+		STARTUPINFO si;
+		PROCESS_INFORMATION pi;
+
+		ZeroMemory( &si, sizeof(si) );
+		si.cb = sizeof(si);
+		ZeroMemory( &pi, sizeof(pi) );
+
+
+		if (!CreateProcessA( NULL, CommandFile, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
+			__dword dwLastErr = GetLastError();
+			return FALSE;
+		}
+
+		// 等待执行完毕
+		WaitForSingleObject( pi.hProcess, INFINITE ); 
+		CloseHandle( pi.hProcess );
+		CloseHandle( pi.hThread );
+	}
+
+	return TRUE;
+}
+
 ANALYZE_BASIC_INFO g_AnalyzeBasicInfo = {0};
-__bool __INTERNAL_FUNC__ Analyze(PXFILE_ATTACH_INFO pTarget, __tchar *pResultFilePath, PANALYZE_CONFIGURE pConfigure) {
+__bool __INTERNAL_FUNC__ Analyze(PXFILE_ATTACH_INFO pTarget, __tchar *pResultDir, __tchar *pResultFilePath, PANALYZE_CONFIGURE pConfigure) {
 	PPROGRAM pProgram = NULL;
 
 	// 填充基本信息结构
@@ -578,6 +668,13 @@ __bool __INTERNAL_FUNC__ Analyze(PXFILE_ATTACH_INFO pTarget, __tchar *pResultFil
 	if (!Output2XML(pProgram, pResultFilePath)) {
 		// 输出文件失败
 		return FALSE;
+	}
+
+	// 输出函数流程图
+	if (g_bGenProcedureFlowChart) {
+		if (!Output2FlowChart(pProgram, pResultDir)) {
+			return FALSE;
+		}
 	}
 
 	ReleaseProgram(&pProgram);

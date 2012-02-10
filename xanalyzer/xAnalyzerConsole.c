@@ -12,6 +12,7 @@
 #include "Disasm.h"
 #include "Analyze.h"
 #include "Monitor.h"
+#include "Setting.h"
 
 #define __RESULT_DIR_PREFIX__				_T("results_")
 
@@ -20,6 +21,8 @@
 #define __DISASM_OUTPUT_FILE_NAME__			_T("disasm_result.xml")
 #define __ANALYZE_OUTPUT_FILE_NAME__		_T("analyze_result.xml")
 #define __MONITOR_OUTPUT_FILE_NAME__		_T("monitor_result.xml")
+
+#define __SETTING_DOT_NAME__				_T("dot.exe")
 
 typedef struct _XANALYZER_CONFIGURE {
 	__tchar szResultDirPath[MAX_PATH];//输出结果文件
@@ -41,6 +44,8 @@ typedef struct _XANALYZER_CONFIGURE {
 
 	__bool bEnableMonitor;//启用监视
 	MONITOR_CONFIGURE MonitorConfigure;//监视器配置
+
+	__bool bEnableSetting;//启用配置
 } XANALYZER_CONFIGURE, *PXANALYZER_CONFIGURE;
 
 __INLINE__ __tchar * __INTERNAL_FUNC__ GetTargetFileName(__tchar *pFileName, __tchar *pFilePath) {
@@ -122,7 +127,7 @@ __void __INTERNAL_FUNC__ Usage() {
 	printf("email:logic.yan@gmail.com\n");
 	printf("usage:xanalyzer [options] <filepath>\n");
 	printf("[options]\n");
-	printf("-peview,-dump,-disasm,-analyze,-monitor\n");
+	printf("-peview,-dump,-disasm,-analyze,-monitor,-setting\n");
 	printf("\n");
 
 	printf("[output options]\n");
@@ -167,6 +172,9 @@ __void __INTERNAL_FUNC__ Usage() {
 	printf("\t/zero is not end(zine)\n");
 	printf("\t/import table reference(iatref)\n");
 	printf("\t/assign entry point address <addr>(aepa)\n");
+
+	// 流程图选项
+	printf("\t/output flowchart(ofc)\n");
 	printf("\n");
 
 	printf("-monitor [monitor options]\n");
@@ -175,6 +183,11 @@ __void __INTERNAL_FUNC__ Usage() {
 	printf("\tmonitoring procedure(mproc) <proc1,proc2,...>\n");
 	printf("\tmonitoring all procedure(maproc)\n");
 	printf("\tmonitoring all api(maapi)\n");
+
+	printf("-setting [setting options]\n");
+	printf("[setting options]\n");
+	printf("\t/griphivz path <path>(gp)\n");
+
 	printf("\n");
 }
 
@@ -222,6 +235,8 @@ __integer __INTERNAL_FUNC__ HandleArguments(__integer iArgc, __tchar *pArgv[], P
 					if (pxAnalyzeConfigure->szResultDirPath[_tcsclen(pxAnalyzeConfigure->szResultDirPath) - 1] != _T('\\'))
 						_tcscat(pxAnalyzeConfigure->szResultDirPath, _T("\\"));
 					_tcscat(pxAnalyzeConfigure->szResultDirPath, __RESULT_DIR_PREFIX__);
+				} else if (_tcsicmp(&pCurrArgv[1], _T("ofc")) == 0) {
+					g_bGenProcedureFlowChart = TRUE;
 				} else {
 					Usage();
 					return 0;
@@ -275,6 +290,11 @@ __integer __INTERNAL_FUNC__ HandleArguments(__integer iArgc, __tchar *pArgv[], P
 					return 0;
 				}
 			}break;
+			case 's':case 'S':{
+				if (_tcsicmp(&pCurrArgv[1], _T("setting")) == 0) {
+					pxAnalyzeConfigure->bEnableSetting = TRUE;
+				}
+			}break;
 			case 'p':case 'P':{
 				if (_tcsicmp(&pCurrArgv[1], _T("peview")) == 0) {
 					pxAnalyzeConfigure->bEnablePeView = TRUE;
@@ -297,14 +317,19 @@ __integer __INTERNAL_FUNC__ HandleArguments(__integer iArgc, __tchar *pArgv[], P
 					return 0;
 				}
 			}break;
-			case 'm':case 'M':{
-				printf("-monitor [monitor options]\n");
-				printf("[monitor options]\n");
-				printf("\tmonitoring api(mapi) <api1,api2,...>\n");
-				printf("\tmonitoring procedure(mproc) <proc1,proc2,...>\n");
-				printf("\tmonitoring all procedure(maproc)\n");
-				printf("\tmonitoring all api(maapi)\n");
+			case 'g':case 'G':{
+				if (_tcsicmp(&pCurrArgv[1], _T("gp")) == 0) {
 
+					i++;// 指向下一个参数
+					pCurrArgv = pArgv[i];
+
+					_tcscpy(g_szGraphvizPath, pCurrArgv);
+					if (g_szGraphvizPath[_tcsclen(g_szGraphvizPath) - 1] != _T('\\'))
+						_tcscat(g_szGraphvizPath, _T("\\"));
+					_tcscat(g_szGraphvizPath, __SETTING_DOT_NAME__);
+				}
+			}break;
+			case 'm':case 'M':{
 				if (_tcsicmp(&pCurrArgv[1], _T("mcs")) == 0) {
 					__integer iMixCodeSize = 0;
 
@@ -472,7 +497,7 @@ __integer _tmain(__integer iArgc, __tchar *pArgv[]) {
 	}
 
 	if (g_xAnalyzeConfigure.bEnableAnalyze) {
-		if (!Analyze(&Target, g_szAnalyzeResultFilePath, &(g_xAnalyzeConfigure.AnalyzeConfigure))) {
+		if (!Analyze(&Target, g_xAnalyzeConfigure.szResultDirPath, g_szAnalyzeResultFilePath, &(g_xAnalyzeConfigure.AnalyzeConfigure))) {
 			// 分析程序失败
 		}
 	}

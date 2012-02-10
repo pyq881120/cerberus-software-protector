@@ -1,70 +1,113 @@
 <?xml version="1.0" encoding="gb2312"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.10"
+	Version="9.00"
 	Name="libsupport"
 	ProjectGUID="{B0EF8E1E-2EB5-46EC-89F0-73BB0C3C2C12}"
 	RootNamespace="libsupport"
-	Keyword="Win32Proj">
+	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
+	>
 	<Platforms>
 		<Platform
-			Name="Win32"/>
+			Name="Win32"
+		/>
 	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)lib\"
 			IntermediateDirectory="$(SolutionDir)obj\dbg\$(ProjectName)"
 			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="1"
-			CharacterSet="1">
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(SolutionDir)inc"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
-				MinimalRebuild="TRUE"
+				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				ProgramDataBaseFileName="$(SolutionDir)sym\$(ProjectName).pdb"
 				WarningLevel="0"
-				Detect64BitPortabilityProblems="TRUE"
-				DebugInformationFormat="4"/>
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="4"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/libsupport.lib"/>
+				OutputFile="$(OutDir)/$(ProjectName).lib"
+			/>
 			<Tool
-				Name="VCMIDLTool"/>
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="cmd /c copy $(ProjectDir)*.h $(SolutionDir)inc
-cmd /c copy $(ProjectDir)hde32\*.h $(SolutionDir)inc\hde32
-"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
-			<Tool
-				Name="VCResourceCompilerTool"/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"/>
-			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
-			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				CommandLine="cmd /c copy $(ProjectDir)*.h $(SolutionDir)inc&#x0D;&#x0A;cmd /c copy $(ProjectDir)hde32\*.h $(SolutionDir)inc\hde32&#x0D;&#x0A;"
+			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)lib\"
 			IntermediateDirectory="$(SolutionDir)obj\rls\$(ProjectName)"
 			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="1"
-			CharacterSet="1">
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="$(SolutionDir)inc"
@@ -73,34 +116,38 @@ cmd /c copy $(ProjectDir)hde32\*.h $(SolutionDir)inc\hde32
 				UsePrecompiledHeader="0"
 				ProgramDataBaseFileName="$(SolutionDir)sym\$(ProjectName).pdb"
 				WarningLevel="0"
-				Detect64BitPortabilityProblems="TRUE"
-				DebugInformationFormat="3"/>
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/libsupport.lib"/>
+				OutputFile="$(OutDir)/$(ProjectName).lib"
+			/>
 			<Tool
-				Name="VCMIDLTool"/>
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="cmd /c copy $(ProjectDir)*.h $(SolutionDir)inc
-cmd /c copy $(ProjectDir)hde32\*.h $(SolutionDir)inc\hde32
-"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
-			<Tool
-				Name="VCResourceCompilerTool"/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"/>
-			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
-			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				CommandLine="cmd /c copy $(ProjectDir)*.h $(SolutionDir)inc&#x0D;&#x0A;cmd /c copy $(ProjectDir)hde32\*.h $(SolutionDir)inc\hde32&#x0D;&#x0A;"
+			/>
 		</Configuration>
 	</Configurations>
 	<References>
@@ -109,162 +156,212 @@ cmd /c copy $(ProjectDir)hde32\*.h $(SolutionDir)inc\hde32
 		<Filter
 			Name="源文件"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
 			<File
-				RelativePath=".\DllLoaderPrivate.c">
+				RelativePath=".\DllLoaderPrivate.c"
+				>
 				<FileConfiguration
 					Name="Debug|Win32"
-					ExcludedFromBuild="TRUE">
+					ExcludedFromBuild="true"
+					>
 					<Tool
-						Name="VCCLCompilerTool"/>
+						Name="VCCLCompilerTool"
+					/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32"
-					ExcludedFromBuild="TRUE">
+					ExcludedFromBuild="true"
+					>
 					<Tool
-						Name="VCCLCompilerTool"/>
+						Name="VCCLCompilerTool"
+					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\ImpTblProtecter.c">
+				RelativePath=".\ImpTblProtecter.c"
+				>
 				<FileConfiguration
 					Name="Debug|Win32"
-					ExcludedFromBuild="TRUE">
+					ExcludedFromBuild="true"
+					>
 					<Tool
-						Name="VCCLCompilerTool"/>
+						Name="VCCLCompilerTool"
+					/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32"
-					ExcludedFromBuild="TRUE">
+					ExcludedFromBuild="true"
+					>
 					<Tool
-						Name="VCCLCompilerTool"/>
+						Name="VCCLCompilerTool"
+					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Misc.c">
+				RelativePath=".\Misc.c"
+				>
 			</File>
 			<File
-				RelativePath=".\OptResource.c">
+				RelativePath=".\OptResource.c"
+				>
 				<FileConfiguration
 					Name="Debug|Win32"
-					ExcludedFromBuild="TRUE">
+					ExcludedFromBuild="true"
+					>
 					<Tool
-						Name="VCCLCompilerTool"/>
+						Name="VCCLCompilerTool"
+					/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32"
-					ExcludedFromBuild="TRUE">
+					ExcludedFromBuild="true"
+					>
 					<Tool
-						Name="VCCLCompilerTool"/>
+						Name="VCCLCompilerTool"
+					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\PeDiy.c">
+				RelativePath=".\PeDiy.c"
+				>
 			</File>
 			<File
-				RelativePath=".\ProcedureRelocation.c">
+				RelativePath=".\ProcedureRelocation.c"
+				>
 				<FileConfiguration
 					Name="Debug|Win32"
-					ExcludedFromBuild="TRUE">
+					ExcludedFromBuild="true"
+					>
 					<Tool
-						Name="VCCLCompilerTool"/>
+						Name="VCCLCompilerTool"
+					/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32"
-					ExcludedFromBuild="TRUE">
+					ExcludedFromBuild="true"
+					>
 					<Tool
-						Name="VCCLCompilerTool"/>
+						Name="VCCLCompilerTool"
+					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\RandRoll.c">
+				RelativePath=".\RandRoll.c"
+				>
 			</File>
 			<File
-				RelativePath=".\RefixTlsPrivate.c">
+				RelativePath=".\RefixTlsPrivate.c"
+				>
 				<FileConfiguration
 					Name="Debug|Win32"
-					ExcludedFromBuild="TRUE">
+					ExcludedFromBuild="true"
+					>
 					<Tool
-						Name="VCCLCompilerTool"/>
+						Name="VCCLCompilerTool"
+					/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32"
-					ExcludedFromBuild="TRUE">
+					ExcludedFromBuild="true"
+					>
 					<Tool
-						Name="VCCLCompilerTool"/>
+						Name="VCCLCompilerTool"
+					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\VolumeInfo.c">
+				RelativePath=".\VolumeInfo.c"
+				>
 			</File>
 			<File
-				RelativePath=".\XFileFormat.c">
+				RelativePath=".\XFileFormat.c"
+				>
 			</File>
 			<File
-				RelativePath=".\xRand.c">
+				RelativePath=".\xRand.c"
+				>
 			</File>
 			<Filter
 				Name="hde32"
-				Filter="">
+				>
 				<File
-					RelativePath=".\hde32\hde32.c">
+					RelativePath=".\hde32\hde32.c"
+					>
 				</File>
 				<File
-					RelativePath=".\hde32\hde32.h">
+					RelativePath=".\hde32\hde32.h"
+					>
 				</File>
 				<File
-					RelativePath=".\hde32\table32.h">
+					RelativePath=".\hde32\table32.h"
+					>
 				</File>
 			</Filter>
 		</Filter>
 		<Filter
 			Name="头文件"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
 			<File
-				RelativePath=".\IconEx.h">
+				RelativePath=".\IconEx.h"
+				>
 			</File>
 			<File
-				RelativePath=".\ImpTblProtecter.h">
+				RelativePath=".\ImpTblProtecter.h"
+				>
 			</File>
 			<File
-				RelativePath=".\Misc.h">
+				RelativePath=".\Misc.h"
+				>
 			</File>
 			<File
-				RelativePath=".\OptResource.h">
+				RelativePath=".\OptResource.h"
+				>
 			</File>
 			<File
-				RelativePath=".\PeDiy.h">
+				RelativePath=".\PeDiy.h"
+				>
 			</File>
 			<File
-				RelativePath=".\ProcedureRelocation.h">
+				RelativePath=".\ProcedureRelocation.h"
+				>
 			</File>
 			<File
-				RelativePath=".\RandRoll.h">
+				RelativePath=".\RandRoll.h"
+				>
 			</File>
 			<File
-				RelativePath=".\Support.h">
+				RelativePath=".\Support.h"
+				>
 			</File>
 			<File
-				RelativePath=".\VolumeInfo.h">
+				RelativePath=".\VolumeInfo.h"
+				>
 			</File>
 			<File
-				RelativePath=".\winternl.h">
+				RelativePath=".\winternl.h"
+				>
 			</File>
 			<File
-				RelativePath=".\XFileFormat.h">
+				RelativePath=".\XFileFormat.h"
+				>
 			</File>
 			<File
-				RelativePath=".\xRand.h">
+				RelativePath=".\xRand.h"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="资源文件"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			>
 		</Filter>
 		<File
-			RelativePath=".\ReadMe.txt">
+			RelativePath=".\ReadMe.txt"
+			>
 		</File>
 	</Files>
 	<Globals>

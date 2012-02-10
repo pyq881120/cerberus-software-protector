@@ -6,12 +6,22 @@
 #define __CHAOSVM_BYTECODE_SIGN__							0xDEADDAED//字节码文件的标识	
 #define __IsChaosVmByteCodeFile__(x)						((x)->dwSign == __CHAOSVM_BYTECODE_SIGN__)//确定是否是混乱虚拟机的字节码文件
 
+// 仿真机调试选项,2012.2.9 新增
+typedef struct _CHAOSVM_EMULATION_CONFIGURE_DEBUG_CONFIGURE {
+	__bool bDebugChaosVm;
+	__bool bBreakPoint;
+} CHAOSVM_EMULATION_CONFIGURE_DEBUG_CONFIGURE, *PCHAOSVM_EMULATION_CONFIGURE_DEBUG_CONFIGURE;
+
 // 仿真模式配置结构
 typedef struct _CHAOSVM_EMULATION_CONFIGURE {
 	__dword dwTargetOrigImageBase;//被保护程序原始的基地址
 	__dword dwTargetOrigSizeOfImage;//被保护程序原始的映射长度
 	__dword dwTargetNowImageBase;//被保护程序当前的基地址
 	__dword dwTargetNowSizeOfImage;//被保护程序的当前映射长度
+
+	//////////////////////////////////////////////////////////////////////////
+	// 混乱虚拟机仿真机调试选项,2012.2.9 新增
+	CHAOSVM_EMULATION_CONFIGURE_DEBUG_CONFIGURE DebugConfigure;
 } CHAOSVM_EMULATION_CONFIGURE, *PCHAOSVM_EMULATION_CONFIGURE;
 
 /*

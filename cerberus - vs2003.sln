@@ -136,6 +136,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libdetours", "libdetours\li
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imptblfix", "imptblfix\imptblfix.vcproj", "{5F3C26B8-FD28-4138-8933-643FE00832F7}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		ChaosVmEmulationDebug = ChaosVmEmulationDebug
@@ -496,6 +500,18 @@ Global
 		{61ACA065-C46A-49EC-8710-69BAEFF15B6C}.Debug.Build.0 = Debug|Win32
 		{61ACA065-C46A-49EC-8710-69BAEFF15B6C}.Release.ActiveCfg = Release|Win32
 		{61ACA065-C46A-49EC-8710-69BAEFF15B6C}.Release.Build.0 = Release|Win32
+		{5F3C26B8-FD28-4138-8933-643FE00832F7}.ChaosVmEmulationDebug.ActiveCfg = Debug|Win32
+		{5F3C26B8-FD28-4138-8933-643FE00832F7}.ChaosVmEmulationDebug.Build.0 = Debug|Win32
+		{5F3C26B8-FD28-4138-8933-643FE00832F7}.ChaosVmEmulationRelease.ActiveCfg = Release|Win32
+		{5F3C26B8-FD28-4138-8933-643FE00832F7}.ChaosVmEmulationRelease.Build.0 = Release|Win32
+		{5F3C26B8-FD28-4138-8933-643FE00832F7}.ChaosVmEmulationReleaseWithDbgPrint.ActiveCfg = Release|Win32
+		{5F3C26B8-FD28-4138-8933-643FE00832F7}.ChaosVmEmulationReleaseWithDbgPrint.Build.0 = Release|Win32
+		{5F3C26B8-FD28-4138-8933-643FE00832F7}.ChaosVmReleaseWithDbgPrint.ActiveCfg = Release|Win32
+		{5F3C26B8-FD28-4138-8933-643FE00832F7}.ChaosVmReleaseWithDbgPrint.Build.0 = Release|Win32
+		{5F3C26B8-FD28-4138-8933-643FE00832F7}.Debug.ActiveCfg = Debug|Win32
+		{5F3C26B8-FD28-4138-8933-643FE00832F7}.Debug.Build.0 = Debug|Win32
+		{5F3C26B8-FD28-4138-8933-643FE00832F7}.Release.ActiveCfg = Release|Win32
+		{5F3C26B8-FD28-4138-8933-643FE00832F7}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

@@ -26,6 +26,11 @@ typedef struct _CHAOSVM_LOADER_CONFIGURE {
 	__tchar szMessageBoxContextOnByteCodeFileNotExist[0x100];
 	__tchar szMessageBoxContextOnEmulationFileNotExist[0x100];
 	__dword dwMessageStyle;//消息框风格
+
+	//////////////////////////////////////////////////////////////////////////
+	// 调试虚拟机选项
+	// 2012.2.9 新增
+	CHAOSVM_EMULATION_CONFIGURE_DEBUG_CONFIGURE DebugConfigure;
 } CHAOSVM_LOADER_CONFIGURE, *PCHAOSVM_LOADER_CONFIGURE;
 
 #endif

@@ -51,7 +51,7 @@ END
 //
 // BIN
 //
-IDR_YIMPORTTABLE                BIN                     "E:\\projects\\cerberus\\bin\\yimptbl.dll"
+IDR_YIMPORTTABLE                BIN                     "D:\\projects\\cerberus\\bin\\yimptbl.dll"
 
 #endif    // 中文(中华人民共和国) resources
 /////////////////////////////////////////////////////////////////////////////

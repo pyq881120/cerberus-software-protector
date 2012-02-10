@@ -134,6 +134,9 @@ CPU_STATUS __INTERNAL_FUNC__ FuncOne_Prefix_F3(PCHAOSVM_CPU pCPU) {//[F3]
 	return Status;
 }
 
+/*
+ * 2012.2.8日后分别处理每个段前缀,此函数废弃
+ */
 CPU_STATUS __INTERNAL_FUNC__ FuncOne_Prefix_SegOverride(PCHAOSVM_CPU pCPU) {//[2E,36,3E,26,64,65]
 	/*
 	 * Segment override prefixes(change DEFAULT segment). (2E, 36, 3E, 26, 64, 65)
@@ -2766,8 +2769,6 @@ CPU_STATUS __INTERNAL_FUNC__ FuncOne_LEAVE_C9(PCHAOSVM_CPU pCPU) {//[C9]
 	__ExecuteInstAfter__(pCPU);
 	return __CPU_STATUS_EXECUTE_SUCCESS__;
 }
-
-
 
 /*
  * INT 指令

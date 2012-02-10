@@ -6,9 +6,11 @@
 #include "ChaosVmCpuInstructionsOneByteMath.h"
 #include "ChaosVmCpuInstructionsOneByteExtension.h"
 #include "ChaosVmCpuInstructionsOneByteString.h"
+#include "ChaosVmCpuInstructionsOneByteSegment.h"//2012.2.8新增
 #include "ChaosVmCpuInstructionsShift.h"
 #include "ChaosVmCpuInstructionsTwoByteGeneral.h"
 #include "ChaosVmCpuInstructionsTwoByteExtension.h"
+
 #include "ChaosVmCpuDisasm.h"
 
 /*
@@ -29,6 +31,7 @@
 #include "ChaosVmCpuInstructionsOneByteMath.c"
 #include "ChaosVmCpuInstructionsOneByteExtension.c"
 #include "ChaosVmCpuInstructionsOneByteString.c"
+#include "ChaosVmCpuInstructionsOneByteSegment.c"//2012.2.8新增
 #include "ChaosVmCpuInstructionsShift.c"
 #include "ChaosVmCpuInstructionsTwoByteGeneral.c"
 #include "ChaosVmCpuInstructionsTwoByteExtension.c"
@@ -102,6 +105,8 @@ CPU_STATUS __INTERNAL_FUNC__ ChaosVmCpuRunToOffset(PCHAOSVM_CPU pCPU, __offset o
 			break;
 		else if(__CPU_STATUS_HOOK_HANDLE__ == Status)
 			continue;
+
+		/* 到达这里时 ChaosVmCpuInternalCallHookRoutineExecuteInstruction 通常状况下返回__CPU_STATUS_HOOT_NOT_HANDLE__ */
 
 		/*
 		 * 读取指令

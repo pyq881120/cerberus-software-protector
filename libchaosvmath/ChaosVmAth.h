@@ -14,7 +14,7 @@
  * |   原始目标文件   | 
  * |                  |
  * ********************
- * |   坠于数据
+ * |   末尾数据
  * *-*-*-*-*-*-*-*-*-*-*
  * |   XFILE_HEADER   |
  * xxxxxxxxxxxxxxxxxxxx
@@ -106,6 +106,11 @@ typedef struct _CHAOSVMATH_CONFIGURE {
 	__tchar szMessageBoxOnByteCodeFileNotExist[0x100];
 	__tchar szMessageBoxOnEmulationFileNotExist[0x100];
 	__dword dwMessageStyle;//消息框风格
+
+	//////////////////////////////////////////////////////////////////////////
+	// 调试虚拟机选项
+	// 2012.2.9 新增
+	CHAOSVM_EMULATION_CONFIGURE_DEBUG_CONFIGURE DebugConfigure;
 } CHAOSVMATH_CONFIGURE, *PCHAOSVMATH_CONFIGURE;
 
 // 文件类型

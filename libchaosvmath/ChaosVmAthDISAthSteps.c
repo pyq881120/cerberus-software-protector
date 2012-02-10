@@ -335,6 +335,7 @@ __INLINE__ __dword __INTERNAL_FUNC__ DISAthStep15InInfectMode(PXFILE_ATTACH_INFO
 
 	g_pChaosVmAth->pChaosVmConfigure->PowerProtecterConfigure.iTmp = 0;
 
+
 	// 删除混乱虚拟机的调试符号表
 	DeleteDataDirectoryObjectOnMemMap(g_pChaosVmAth->pChaosVmInTarget, IMAGE_DIRECTORY_ENTRY_DEBUG);
 
@@ -390,6 +391,14 @@ __INLINE__ __dword __INTERNAL_FUNC__ DISAthStep15InEmulationMode(PXFILE_ATTACH_I
 	__logic_tcscpy__(g_pChaosVmAth->pChaosVmLdrConfigure->szMessageBoxContextOnByteCodeFileNotExist, g_pChaosVmAth->pConfigure->szMessageBoxOnByteCodeFileNotExist);
 	__logic_tcscpy__(g_pChaosVmAth->pChaosVmLdrConfigure->szMessageBoxContextOnEmulationFileNotExist, g_pChaosVmAth->pConfigure->szMessageBoxOnEmulationFileNotExist);
 	g_pChaosVmAth->pChaosVmLdrConfigure->dwMessageStyle = g_pChaosVmAth->pConfigure->dwMessageStyle;
+
+
+	/*
+	 * 在虚拟机仿真器模式下,可以进行调试功能
+	 * 只有在仿真机模式下才可以进行
+	 * 2012.2.9 新增功能
+	 */
+	__logic_memcpy__(&(g_pChaosVmAth->pChaosVmLdrConfigure->DebugConfigure), &(g_pChaosVmAth->pConfigure->DebugConfigure), sizeof(CHAOSVM_EMULATION_CONFIGURE_DEBUG_CONFIGURE));
 
 	// 删除混乱虚拟机加载器的调试符号表
 	DeleteDataDirectoryObjectOnMemMap(g_pChaosVmAth->pChaosVmInTarget, IMAGE_DIRECTORY_ENTRY_DEBUG);

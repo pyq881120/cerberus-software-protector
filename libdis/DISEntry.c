@@ -91,7 +91,6 @@ _call_back_7:
 	if (pDISConfigure->bProtectMyIAT) {
 		// 初始化引入表保护器
 		InitImportProtecter();
-
 		// 重新修订DIS自身的基地址在引入保护结构中
 		pDISConfigure->DISImportProtect.addrImageBase = (__address)pDISImageBase;
 

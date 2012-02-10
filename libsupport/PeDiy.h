@@ -158,6 +158,8 @@ __integer __API__ GetTailDataSize(__memory pMem, __integer iFileSize);
 __integer __API__ ResetFileTail(__tchar *lpszFile, __integer iNewTail);
 // 计算重新映射增加的长度,当要添加新节时
 __integer __API__ GetAddSectionMapSize(__memory pMem, __integer iNewMap);
+// 拷贝一个PE文件映射到另一片内存,2012.2.7新增
+__bool __API__ CopyMemToMem(__memory pFromMemory, __memory pToMemory, __integer iSizeOfImage);
 // 拷贝一个PE文件映射到另一片内存并使用内存对齐
 __bool __API__ CopyMemToMemBySecAlign(__memory pFromMemory, __memory pToMemory, __integer iSizeOfImage);
 // 设置内存保护

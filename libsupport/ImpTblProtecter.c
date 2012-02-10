@@ -648,22 +648,38 @@ PREFERENCE_IMPORT_TABLE_ADDRESS __API__ PowerEncryptImportTable(__memory pMem, _
 			// 如果拥有操作数
 			__integer iOperandCount = 0;
 
-			/*
-			 * 这里仅处理MOV,CALL,JMP 三条指令
-			 * 因为不同编译只有这三条指令会对引入表造成访问
-			 */
-			if (ud_obj.mnemonic == UD_Imov) {
-				if ((ud_obj.operand[1].type == UD_OP_MEM) && (ud_obj.operand[1].base == UD_NONE) && \
-					(ud_obj.operand[1].index == UD_NONE) && (ud_obj.operand[1].size == 32)) {
-						pCurrOperand = &(ud_obj.operand[1]);
-						pFileSaveAddress = (__memory)(ud_obj.inp_buff) - sizeof(__dword);
-				}
-			} else if ((ud_obj.mnemonic == UD_Icall) || (ud_obj.mnemonic == UD_Ijmp)) {
-				if ((ud_obj.operand[0].type == UD_OP_MEM) && (ud_obj.operand[0].base == UD_NONE) && \
-					(ud_obj.operand[0].index == UD_NONE) && (ud_obj.operand[0].offset) && (ud_obj.operand[0].size == 32)) {
-						pCurrOperand = &(ud_obj.operand[0]);
-						pFileSaveAddress = (__memory)(ud_obj.inp_buff) - sizeof(__dword);
-				}
+			///*
+			// * 这里仅处理MOV,CALL,JMP 三条指令
+			// * 因为不同编译只有这三条指令会对引入表造成访问
+			// */
+			//if (ud_obj.mnemonic == UD_Imov) {
+			//	if ((ud_obj.operand[1].type == UD_OP_MEM) && (ud_obj.operand[1].base == UD_NONE) && \
+			//		(ud_obj.operand[1].index == UD_NONE) && (ud_obj.operand[1].size == 32)) {
+			//			pCurrOperand = &(ud_obj.operand[1]);
+			//			pFileSaveAddress = (__memory)(ud_obj.inp_buff) - sizeof(__dword);
+			//	}
+			//} else if ((ud_obj.mnemonic == UD_Icall) || (ud_obj.mnemonic == UD_Ijmp)) {
+			//	if ((ud_obj.operand[0].type == UD_OP_MEM) && (ud_obj.operand[0].base == UD_NONE) && \
+			//		(ud_obj.operand[0].index == UD_NONE) && (ud_obj.operand[0].offset) && (ud_obj.operand[0].size == 32)) {
+			//			pCurrOperand = &(ud_obj.operand[0]);
+			//			pFileSaveAddress = (__memory)(ud_obj.inp_buff) - sizeof(__dword);
+			//	}
+			//}
+
+			//////////////////////////////////////////////////////////////////////////
+			// 2012.2.10 修改为 所有指令只要有内存访问
+			// 形如:xxx dword ptr [address]
+			//      xxx dword ptr [address], reg
+			//      xxx reg, dword ptr [address]
+			if ((ud_obj.operand[0].type == UD_OP_MEM) && (ud_obj.operand[0].base == UD_NONE) && \
+				(ud_obj.operand[0].index == UD_NONE) && (ud_obj.operand[0].offset) && (ud_obj.operand[0].size == 32)) {
+					pCurrOperand = &(ud_obj.operand[0]);
+					pFileSaveAddress = (__memory)(ud_obj.inp_buff) - sizeof(__dword);
+			}
+			else if ((ud_obj.operand[1].type == UD_OP_MEM) && (ud_obj.operand[1].base == UD_NONE) && \
+				(ud_obj.operand[1].index == UD_NONE) && (ud_obj.operand[1].size == 32)) {
+					pCurrOperand = &(ud_obj.operand[1]);
+					pFileSaveAddress = (__memory)(ud_obj.inp_buff) - sizeof(__dword);
 			}
 
 			if (pFileSaveAddress) {

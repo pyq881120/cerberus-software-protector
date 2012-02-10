@@ -1,3 +1,7 @@
+/*
+ * 2012.2.8 将段寄存器的统一函数 FuncOne_Prefix_SegOverride 换成 FuncOne_FuncOne_Prefix_Segment_XX独立的处理模式 
+ */
+
 ///* 已完成函数:  224 */
 ONE_OPCODE_TABLE_ENTRY g_ChaosVmCpuDefOneByteOpcodeTable[0x100] = {
 	/*0x00*/  FuncOne_ADD_00                  ,  /*ADD      */
@@ -38,7 +42,8 @@ ONE_OPCODE_TABLE_ENTRY g_ChaosVmCpuDefOneByteOpcodeTable[0x100] = {
 	/*0x23*/  FuncOne_AND_23                  ,  /*AND      */
 	/*0x24*/  FuncOne_AND_24                  ,  /*AND      */
 	/*0x25*/  FuncOne_AND_25                  ,  /*AND      */
-	/*0x26*/  FuncOne_Prefix_SegOverride      ,  /*SEG=ES   Prefix*/
+	/*0x26  FuncOne_Prefix_SegOverride      ,  /*SEG=ES   Prefix*/
+	/*0x26*/  FuncOne_FuncOne_Prefix_Segment_ES      ,  /*SEG=ES   Prefix*/
 	/*0x27*/  FuncOne_DAA_27                  ,  /*DAA      */
 	/*0x28*/  FuncOne_SUB_28                  ,  /*SUB      */
 	/*0x29*/  FuncOne_SUB_29                  ,  /*SUB      */
@@ -46,7 +51,8 @@ ONE_OPCODE_TABLE_ENTRY g_ChaosVmCpuDefOneByteOpcodeTable[0x100] = {
 	/*0x2B*/  FuncOne_SUB_2B                  ,  /*SUB      */
 	/*0x2C*/  FuncOne_SUB_2C                  ,  /*SUB      */
 	/*0x2D*/  FuncOne_SUB_2D                  ,  /*SUB      */
-	/*0x2E*/  FuncOne_Prefix_SegOverride      ,  /*SEG=CS   Prefix*/
+	/*0x2E  FuncOne_Prefix_SegOverride      ,  /*SEG=CS   Prefix*/
+	/*0x2E*/  FuncOne_FuncOne_Prefix_Segment_CS      ,  /*SEG=CS   Prefix*/
 	/*0x2F*/  FuncOne_DAS_2F                  ,  /*DAS      */
 	/*0x30*/  FuncOne_XOR_30                  ,  /*XOR      */
 	/*0x31*/  FuncOne_XOR_31                  ,  /*XOR      */
@@ -54,7 +60,8 @@ ONE_OPCODE_TABLE_ENTRY g_ChaosVmCpuDefOneByteOpcodeTable[0x100] = {
 	/*0x33*/  FuncOne_XOR_33                  ,  /*XOR      */
 	/*0x34*/  FuncOne_XOR_34                  ,  /*XOR      */
 	/*0x35*/  FuncOne_XOR_35                  ,  /*XOR      */
-	/*0x36*/  FuncOne_Prefix_SegOverride      ,  /*SEG=SS   Prefix*/
+	/*0x36  FuncOne_Prefix_SegOverride      ,  /*SEG=SS   Prefix*/
+	/*0x36*/  FuncOne_FuncOne_Prefix_Segment_SS      ,  /*SEG=SS   Prefix*/
 	/*0x37*/  FuncOne_AAA_37                  ,  /*AAA      */
 	/*0x38*/  FuncOne_CMP_38                  ,  /*CMP      */
 	/*0x39*/  FuncOne_CMP_39                  ,  /*CMP      */
@@ -62,7 +69,8 @@ ONE_OPCODE_TABLE_ENTRY g_ChaosVmCpuDefOneByteOpcodeTable[0x100] = {
 	/*0x3B*/  FuncOne_CMP_3B                  ,  /*CMP      */
 	/*0x3C*/  FuncOne_CMP_3C                  ,  /*CMP      */
 	/*0x3D*/  FuncOne_CMP_3D                  ,  /*CMP      */
-	/*0x3E*/  FuncOne_Prefix_SegOverride      ,  /*SEG=DS   Prefix*/
+	/*0x3E  FuncOne_Prefix_SegOverride      ,  /*SEG=DS   Prefix*/
+	/*0x3E*/  FuncOne_FuncOne_Prefix_Segment_DS      ,  /*SEG=DS   Prefix*/
 	/*0x3F*/  FuncOne_AAS_3F                  ,  /*AAS      */
 	/*0x40*/  FuncOne_INC_40                  ,  /*INC      */
 	/*0x41*/  FuncOne_INC_41                  ,  /*INC      */
@@ -100,8 +108,10 @@ ONE_OPCODE_TABLE_ENTRY g_ChaosVmCpuDefOneByteOpcodeTable[0x100] = {
 	/*0x61*/  FuncOne_POPAD_61                ,  /*POPAD    */
 	/*0x62*/  FuncOne_UnImplement             ,  /*BOUND    */
 	/*0x63*/  FuncOne_UnImplement             ,  /*ARPL     */
-	/*0x64*/  FuncOne_Prefix_SegOverride      ,  /*SEG=FS   Prefix*/
-	/*0x65*/  FuncOne_Prefix_SegOverride      ,  /*SEG=GS   Prefix*/
+	/*0x64  FuncOne_Prefix_SegOverride      ,  /*SEG=FS   Prefix*/
+	/*0x64*/  FuncOne_FuncOne_Prefix_Segment_FS      ,  /*SEG=FS   Prefix*/
+	/*0x65  FuncOne_Prefix_SegOverride      ,  /*SEG=GS   Prefix*/
+	/*0x65*/  FuncOne_FuncOne_Prefix_Segment_GS      ,  /*SEG=GS   Prefix*/
 	/*0x66*/  FuncOne_Prefix_66               ,  /*OperandSize Prefix*/
 	/*0x67*/  FuncOne_Prefix_67               ,  /*AddressSize Prefix*/
 	/*0x68*/  FuncOne_PUSH_68                 ,  /*PUSH     */

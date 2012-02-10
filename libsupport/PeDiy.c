@@ -862,6 +862,51 @@ __integer __API__ GetAddSectionMapSize(__memory pMem, __integer iNewMap) {
 	return iRet;
 }
 
+__bool __API__ CopyMemToMem(__memory pFromMemory, __memory pToMemory, __integer iSizeOfImage) {
+	PIMAGE_NT_HEADERS pNt = NULL;
+	PIMAGE_SECTION_HEADER pSectionHeader = NULL;
+	__word wNumberOfSection = 0;
+	__integer iHdrLen = 0;
+	__integer i = 0;
+
+	pNt = GetNtHeader(pFromMemory);
+	pSectionHeader = GetFirstSectionByNtHeader(pNt);
+	wNumberOfSection = pNt->FileHeader.NumberOfSections;
+
+	// 处理节为bbs节的情况
+	while (pSectionHeader->PointerToRawData == 0) {
+		pSectionHeader++;
+	}
+
+	iHdrLen = pSectionHeader->PointerToRawData;//从第一个节代码以上全算作PE头部分,这样做安全
+
+	// 重新获取首节头
+	pSectionHeader = GetFirstSectionByNtHeader(pNt);
+
+	__logic_memset__(pToMemory, 0, iSizeOfImage);//首先将目标映射清除干净
+	__logic_memcpy__(pToMemory, pFromMemory, iHdrLen);//复制PE头+节头
+
+	for (i = 0; i < wNumberOfSection; i++) {
+		__memory pSecMem1Addr = NULL, pSecMem2Addr = NULL;
+		__integer iSecSize = 0;
+		// 复制节数据
+		pSecMem1Addr = pToMemory + pSectionHeader->VirtualAddress;
+		pSecMem2Addr = pFromMemory + pSectionHeader->VirtualAddress;
+
+		// WIN7以上系统,系统库例如kernel32.dll 这些可能会出现这些狗血的事情
+		if (pSectionHeader->SizeOfRawData > pSectionHeader->Misc.VirtualSize)
+			iSecSize = pSectionHeader->Misc.VirtualSize;
+		else
+			iSecSize = pSectionHeader->SizeOfRawData;
+
+		if (iSecSize != 0)
+			__logic_memcpy__(pSecMem1Addr, pSecMem2Addr, iSecSize);
+		pSectionHeader++;
+	}
+
+	return TRUE;
+}
+
 __bool __API__ CopyMemToMemBySecAlign(__memory pFromMemory, __memory pToMemory, __integer iSizeOfImage) {
 	PIMAGE_NT_HEADERS pNt = NULL;
 	PIMAGE_SECTION_HEADER pSectionHeader = NULL;
@@ -2314,17 +2359,27 @@ FPVirtualAlloc g_pVirtualAlloc;
 FPSetUnhandledExceptionFilter g_pSetUnhandleExceptionFilter;
 
 // 重映射DLL
+/*
+ * 2012.2.7号修订,使用CopyMemToMem复制
+ */
 __memory __API__ RemapDll(__memory pOrigMap, FPVirtualAlloc pVirtualAlloc, __bool bRunDllMain) {
 	__memory pNewMap = NULL;
 	__integer iSizeOfImage = 0;
 	FPDllMain pDllMain = NULL;
 	PIMAGE_NT_HEADERS pOrigMapNtHdr = NULL;
+	
 	pOrigMapNtHdr = GetNtHeader(pOrigMap);
 	iSizeOfImage = pOrigMapNtHdr->OptionalHeader.SizeOfImage;
 	pNewMap = (__memory)pVirtualAlloc(NULL, iSizeOfImage, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 	if (!pNewMap) return NULL;
-	__logic_memset__(pNewMap, 0, iSizeOfImage);
-	__logic_memcpy__(pNewMap, pOrigMap, iSizeOfImage);
+
+	//__logic_memset__(pNewMap, 0, iSizeOfImage);
+	//__logic_memcpy__(pNewMap, pOrigMap, iSizeOfImage);
+
+	if (!CopyMemToMem(pOrigMap, pNewMap, iSizeOfImage)) {
+		// 拷贝出错
+	}
+
 	// 进行重定位
 	BaseRelocation(pNewMap, (__address)pOrigMap, (__address)pNewMap, FALSE);
 	// 获取到入口点地址,并运行

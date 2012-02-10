@@ -50,7 +50,7 @@ END
 //
 // BIN
 //
-IDR_CHAOSVM_EMULATION                BIN                     "E:\\projects\\cerberus\\bin\\chaosvm_emulation.dll"
+IDR_CHAOSVM_EMULATION                BIN                     "D:\\projects\\cerberus\\bin\\chaosvm_emulation.dll"
 
 #endif    // 中文(简体，中国) resources
 /////////////////////////////////////////////////////////////////////////////

@@ -126,98 +126,110 @@ __void __INTERNAL_FUNC__ ChaosVmLdrEntry() {
 
 	// 加载混乱虚拟机仿真器
 #if defined(_DEBUG)
-	hChaosVmEmulation = (__dword)LoadLibrary(szChaosVmEmulationPath);
-	if (!hChaosVmEmulation) {
-		// 加载仿真器失败
-		__logic_delete__(pByteCode);
-		return;
-	}
+	//hChaosVmEmulation = (__dword)LoadLibrary(szChaosVmEmulationPath);
+	//if (!hChaosVmEmulation) {
+	//	// 加载仿真器失败
+	//	__logic_delete__(pByteCode);
+	//	return;
+	//}
 
 #else
 	{
+		//
 		// 在发布版的状态下
-		__memory pChaosVmEmulation = NULL, pChaosVmEmulationDecode = NULL;
-		__integer iChaosVmEmulationFileSize = 0, iChaosVmEmulationSizeOfImage = 0;
-		__address addrChaosVmEmulationImageBase = 0;
-		PIMAGE_NT_HEADERS pChaosVmEmulationNtHdr = NULL;
+		//
+		if (g_ChaosVmLdrConfigure.DebugConfigure.bDebugChaosVm != TRUE) {
+			__memory pChaosVmEmulation = NULL, pChaosVmEmulationDecode = NULL;
+			__integer iChaosVmEmulationFileSize = 0, iChaosVmEmulationSizeOfImage = 0;
+			__address addrChaosVmEmulationImageBase = 0;
+			PIMAGE_NT_HEADERS pChaosVmEmulationNtHdr = NULL;
 
-// 释放混乱虚拟机仿真器
-#define __ChaosVmLdrEntryFreeChaosVmEmulation__(x){\
-	if (g_ChaosVmLdrConfigure.bUseChaosVmEmulationInResource) UnMapResourceData(x);\
-	else UnMappingFile(x);}
+	// 释放混乱虚拟机仿真器
+	#define __ChaosVmLdrEntryFreeChaosVmEmulation__(x){\
+		if (g_ChaosVmLdrConfigure.bUseChaosVmEmulationInResource) UnMapResourceData(x);\
+		else UnMappingFile(x);}
 
-		if (g_ChaosVmLdrConfigure.bUseChaosVmEmulationInResource) {
-			__PrintDbgInfo_DebugerWriteLine__("Load chaosvm emulation from resource");
-			// 获取资源指针
-			pChaosVmEmulation = GetResourcePoint(g_addrNowChaosVmLdrImageBase, IDR_CHAOSVM_EMULATION, _T("BIN"), &iChaosVmEmulationFileSize);
-			if (!pChaosVmEmulation) {
-				__logic_delete__(pByteCode);
-				return;
+			if (g_ChaosVmLdrConfigure.bUseChaosVmEmulationInResource) {
+				__PrintDbgInfo_DebugerWriteLine__("Load chaosvm emulation from resource");
+				// 获取资源指针
+				pChaosVmEmulation = GetResourcePoint(g_addrNowChaosVmLdrImageBase, IDR_CHAOSVM_EMULATION, _T("BIN"), &iChaosVmEmulationFileSize);
+				if (!pChaosVmEmulation) {
+					__logic_delete__(pByteCode);
+					return;
+				}
+			} else {
+				__PrintDbgInfo_DebugerWriteLine__("Load chaosvm emulation from file");
+				// 映射混乱虚拟机仿真器
+				pChaosVmEmulation = MappingFile(szChaosVmEmulationPath, &iChaosVmEmulationFileSize, FALSE, 0, 0);
+				if (!pChaosVmEmulation) {
+					__logic_delete__(pByteCode);
+					return;
+				}/* end if */
 			}
-		} else {
-			__PrintDbgInfo_DebugerWriteLine__("Load chaosvm emulation from file");
-			// 映射混乱虚拟机仿真器
-			pChaosVmEmulation = MappingFile(szChaosVmEmulationPath, &iChaosVmEmulationFileSize, FALSE, 0, 0);
-			if (!pChaosVmEmulation) {
-				__logic_delete__(pByteCode);
-				return;
-			}/* end if */
-		}
 
-		__PrintDbgInfo_DebugerWriteLine__("Load chaosvm emulation success");
+			__PrintDbgInfo_DebugerWriteLine__("Load chaosvm emulation success");
 
-		/*
-		 * 解密混乱虚拟机仿真器
-		 * 这里分配内存的时候,要计算基地址内存对齐粒度后的地址
-		 */
-		{
-			__integer iTotalChaosVmEmulationBufferSize = 0;
+			/*
+			 * 解密混乱虚拟机仿真器
+			 * 这里分配内存的时候,要计算基地址内存对齐粒度后的地址
+			 */
+			{
+				__integer iTotalChaosVmEmulationBufferSize = 0;
 
-			pChaosVmEmulationNtHdr = GetNtHeader(pChaosVmEmulation);
-			iChaosVmEmulationSizeOfImage = pChaosVmEmulationNtHdr->OptionalHeader.SizeOfImage;
+				pChaosVmEmulationNtHdr = GetNtHeader(pChaosVmEmulation);
+				iChaosVmEmulationSizeOfImage = pChaosVmEmulationNtHdr->OptionalHeader.SizeOfImage;
 
-			iTotalChaosVmEmulationBufferSize = iChaosVmEmulationSizeOfImage + __IMAGE_BASE_ALIGN__;
+				iTotalChaosVmEmulationBufferSize = iChaosVmEmulationSizeOfImage + __IMAGE_BASE_ALIGN__;
 
-			pChaosVmEmulationDecode = (__memory)__logic_new_size__(iTotalChaosVmEmulationBufferSize);
-			if (!pChaosVmEmulationDecode) {
-				// 分配内存失败
-				__logic_delete__(pByteCode);
+				pChaosVmEmulationDecode = (__memory)__logic_new_size__(iTotalChaosVmEmulationBufferSize);
+				if (!pChaosVmEmulationDecode) {
+					// 分配内存失败
+					__logic_delete__(pByteCode);
+					__ChaosVmLdrEntryFreeChaosVmEmulation__(pChaosVmEmulation);
+					return;
+				}
+
+				// 计算出要将混乱虚拟机仿真器存放的内存地址
+				addrChaosVmEmulationImageBase = AligImageBase((__address)pChaosVmEmulationDecode);
+				__PrintDbgInfo_DebugerWriteLine__("Decode chaosvm emulation success");
+			}
+
+			// 通过自定义的PE Loader加载到内存
+			{
+				FPDllMain pEntry = NULL;
+
+				__PrintDbgInfo_DebugerWriteLine__("Already invoke PeLoader");
+				pEntry = (FPDllMain)PeLoader(pChaosVmEmulation, addrChaosVmEmulationImageBase, iChaosVmEmulationSizeOfImage, TRUE, NULL, NULL);
+				if (!pEntry) {
+					// PE 加载器加载失败
+					__logic_delete__(pByteCode);
+					return;
+				}
+				__PrintDbgInfo_DebugerWriteFormatStringInteger__("PeLoader load chaosvm emulation to memory success, chaosvm emulation address = ", addrChaosVmEmulationImageBase);
+
+				// 释放混乱虚拟机仿真器结构
 				__ChaosVmLdrEntryFreeChaosVmEmulation__(pChaosVmEmulation);
-				return;
+
+				// 执行dllmain
+				__PrintDbgInfo_DebugerWriteLine__("Already invoke chaosvm emulation dllmain");
+				__PrintDbgInfo_DebugerWriteFormatStringInteger__("ChaosVm emulation dllmain address = ", pEntry);
+				if (!pEntry(addrChaosVmEmulationImageBase, DLL_PROCESS_ATTACH, NULL)) {
+					__logic_delete__(pByteCode);
+					return;
+				}/* end if */
 			}
 
-			// 计算出要将混乱虚拟机仿真器存放的内存地址
-			addrChaosVmEmulationImageBase = AligImageBase((__address)pChaosVmEmulationDecode);
-			__PrintDbgInfo_DebugerWriteLine__("Decode chaosvm emulation success");
-		}
-
-		// 通过自定义的PE Loader加载到内存
-		{
-			FPDllMain pEntry = NULL;
-
-			__PrintDbgInfo_DebugerWriteLine__("Already invoke PeLoader");
-			pEntry = (FPDllMain)PeLoader(pChaosVmEmulation, addrChaosVmEmulationImageBase, iChaosVmEmulationSizeOfImage, TRUE, NULL, NULL);
-			if (!pEntry) {
-				// PE 加载器加载失败
-				__logic_delete__(pByteCode);
-				return;
-			}
-			__PrintDbgInfo_DebugerWriteFormatStringInteger__("PeLoader load chaosvm emulation to memory success, chaosvm emulation address = ", addrChaosVmEmulationImageBase);
-
-			// 释放混乱虚拟机仿真器结构
-			__ChaosVmLdrEntryFreeChaosVmEmulation__(pChaosVmEmulation);
-
-			// 执行dllmain
-			__PrintDbgInfo_DebugerWriteLine__("Already invoke chaosvm emulation dllmain");
-			__PrintDbgInfo_DebugerWriteFormatStringInteger__("ChaosVm emulation dllmain address = ", pEntry);
-			if (!pEntry(addrChaosVmEmulationImageBase, DLL_PROCESS_ATTACH, NULL)) {
+			hChaosVmEmulation = (__dword)addrChaosVmEmulationImageBase;
+		} else {
+			// 在调试状态下
+			hChaosVmEmulation = (__dword)LoadLibrary(szChaosVmEmulationPath);
+			if (!hChaosVmEmulation) {
+				// 加载仿真器失败
 				__logic_delete__(pByteCode);
 				return;
 			}/* end if */
 		}
-
-		hChaosVmEmulation = (__dword)addrChaosVmEmulationImageBase;
-	}
+	}/* end #else */
 #endif
 
 	__PrintDbgInfo_DebugerWriteLine__("Load chaosvm emulation success");
@@ -230,11 +242,14 @@ __void __INTERNAL_FUNC__ ChaosVmLdrEntry() {
 	if (!pChaosVmEmulationEntry) {
 		// 获取仿真函数入口失败
 		__logic_delete__(pByteCode);
-#if defined(_DEBUG)
-		FreeLibrary(hChaosVmEmulation);
-#else
-		__logic_delete__(hChaosVmEmulation);
-#endif
+
+		// 释放内存.2012.2.9 修改
+		if (g_ChaosVmLdrConfigure.DebugConfigure.bDebugChaosVm != TRUE) {
+			__logic_delete__(hChaosVmEmulation);
+		} else {
+			FreeLibrary(hChaosVmEmulation);
+		}
+
 		return;
 	}
 
@@ -356,6 +371,11 @@ __dword __INTERNAL_FUNC__ DISStep7(PDIS_CONFIGURE pDISConfigure, __memory pDISIm
 	g_pChaosVmEmulationConfigure->dwTargetNowSizeOfImage = g_iNowSizeOfImage;
 	g_pChaosVmEmulationConfigure->dwTargetOrigSizeOfImage = g_iOrigSizeOfImage;
 	g_pChaosVmEmulationConfigure->dwTargetOrigImageBase = g_addrOrigImageBase;
+
+	/*
+	 * 仿真机调试选项 2012.2.9 新增
+	 */
+	__logic_memcpy__(&(g_pChaosVmEmulationConfigure->DebugConfigure), &(g_ChaosVmLdrConfigure.DebugConfigure), sizeof(CHAOSVM_EMULATION_CONFIGURE_DEBUG_CONFIGURE));
 	return __DIS_ERROR_SUCCESS__;
 }
 
