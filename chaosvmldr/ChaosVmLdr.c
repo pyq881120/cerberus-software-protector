@@ -61,14 +61,7 @@ __void __INTERNAL_FUNC__ ChaosVmLdrEntry() {
 			__logic_tcscpy__(g_ChaosVmLdrConfigure.szMessageBoxContextOnByteCodeFileNotExist, _T("The chaosvm byte code file not exist"));
 	}
 
-	// 检验仿真器文件是否存在
-	if (!g_ChaosVmLdrConfigure.bUseChaosVmEmulationInResource) {
-		if (!ExistFile(szChaosVmEmulationPath)) {
-			MessageBox(NULL, g_ChaosVmLdrConfigure.szMessageBoxContextOnEmulationFileNotExist, g_ChaosVmLdrConfigure.szMessageBoxTitle, g_ChaosVmLdrConfigure.dwMessageStyle);
-			ExitProcess(-1);
-		}
-	}
-
+	// 验证字节码是否存在
 	if (!ExistFile(szByteCodePath)) {
 		if (!ExistFile(szByteCodePath)) {
 			MessageBox(NULL, g_ChaosVmLdrConfigure.szMessageBoxContextOnByteCodeFileNotExist, g_ChaosVmLdrConfigure.szMessageBoxTitle, g_ChaosVmLdrConfigure.dwMessageStyle);
@@ -144,10 +137,12 @@ __void __INTERNAL_FUNC__ ChaosVmLdrEntry() {
 			__address addrChaosVmEmulationImageBase = 0;
 			PIMAGE_NT_HEADERS pChaosVmEmulationNtHdr = NULL;
 
+	//////////////////////////////////////////////////////////////////////////
 	// 释放混乱虚拟机仿真器
 	#define __ChaosVmLdrEntryFreeChaosVmEmulation__(x){\
 		if (g_ChaosVmLdrConfigure.bUseChaosVmEmulationInResource) UnMapResourceData(x);\
 		else UnMappingFile(x);}
+	//////////////////////////////////////////////////////////////////////////
 
 			if (g_ChaosVmLdrConfigure.bUseChaosVmEmulationInResource) {
 				__PrintDbgInfo_DebugerWriteLine__("Load chaosvm emulation from resource");
@@ -160,6 +155,15 @@ __void __INTERNAL_FUNC__ ChaosVmLdrEntry() {
 			} else {
 				__PrintDbgInfo_DebugerWriteLine__("Load chaosvm emulation from file");
 				// 映射混乱虚拟机仿真器
+
+				// 检验仿真器文件是否存在,2012.2.12 修改
+				if (!g_ChaosVmLdrConfigure.bUseChaosVmEmulationInResource) {
+					if (!ExistFile(szChaosVmEmulationPath)) {
+						MessageBox(NULL, g_ChaosVmLdrConfigure.szMessageBoxContextOnEmulationFileNotExist, g_ChaosVmLdrConfigure.szMessageBoxTitle, g_ChaosVmLdrConfigure.dwMessageStyle);
+						ExitProcess(-1);
+					}
+				}
+
 				pChaosVmEmulation = MappingFile(szChaosVmEmulationPath, &iChaosVmEmulationFileSize, FALSE, 0, 0);
 				if (!pChaosVmEmulation) {
 					__logic_delete__(pByteCode);

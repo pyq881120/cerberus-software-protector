@@ -320,6 +320,14 @@
 			</File>
 		</Filter>
 		<File
+			RelativePath="..\bin\chaosvm.dll"
+			>
+		</File>
+		<File
+			RelativePath="..\bin\chaosvmldr.dll"
+			>
+		</File>
+		<File
 			RelativePath=".\Command.xml"
 			>
 		</File>

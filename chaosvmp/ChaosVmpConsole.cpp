@@ -341,6 +341,8 @@ __bool __INTERNAL_FUNC__ ReadCommandFile(__tchar *pFilePath, PCHAOSVMATH_CONFIGU
 	pRecord = &(pPowerProtecterAthConfigure->PowerProtecterProcedure);
 
 	Node = RootNode->GetChild("y");
+	// 如果没有力量保护
+	if (!Node) goto _dis_setting;
 	Nodes = Node->GetChilds("Procedure");
 	for (int i = 0; i < Nodes.size(); i++)
 	{
