@@ -177,7 +177,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="cmd /c copy $(TargetPath) $(SolutionDir)..\public\$(TargetFileName)&#x0D;&#x0A;cmd /c copy $(ProjectDir)CDK.h $(SolutionDir)inc&#x0D;&#x0A;"
+				CommandLine="cmd /c copy $(TargetPath) $(SolutionDir)..\public\$(TargetFileName)&#x0D;&#x0A;cmd /c copy $(ProjectDir)CDK.h $(SolutionDir)inc&#x0D;&#x0A;cmd /c copy $(ProjectDir)CDK.h $(SolutionDir)..\public\CDK.h&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -258,7 +258,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="cmd /c copy $(TargetPath) $(SolutionDir)..\public\$(TargetFileName)&#x0D;&#x0A;cmd /c copy $(ProjectDir)CDK.h $(SolutionDir)inc&#x0D;&#x0A;"
+				CommandLine="cmd /c copy $(TargetPath) $(SolutionDir)..\public\$(TargetFileName)&#x0D;&#x0A;cmd /c copy $(ProjectDir)CDK.h $(SolutionDir)inc&#x0D;&#x0A;cmd /c copy $(ProjectDir)CDK.h $(SolutionDir)..\public\CDK.h&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
