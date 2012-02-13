@@ -78,6 +78,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "分析引擎库", "分析引擎库", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libtinyxml", "libtinyxml\libtinyxml.vcproj", "{DA4C66E5-44A5-417C-973A-C0E3A681F7E5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cerberus", "cerberus\cerberus.vcproj", "{41697B9B-20D3-4486-89D8-CC29FDC2DEC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		ChaosVmEmulationDebug|Win32 = ChaosVmEmulationDebug|Win32
@@ -538,6 +540,22 @@ Global
 		{DA4C66E5-44A5-417C-973A-C0E3A681F7E5}.Debug|Win32.Build.0 = Debug|Win32
 		{DA4C66E5-44A5-417C-973A-C0E3A681F7E5}.Release|Win32.ActiveCfg = Release|Win32
 		{DA4C66E5-44A5-417C-973A-C0E3A681F7E5}.Release|Win32.Build.0 = Release|Win32
+		{41697B9B-20D3-4486-89D8-CC29FDC2DEC5}.ChaosVmEmulationDebug|Win32.ActiveCfg = Debug|Win32
+		{41697B9B-20D3-4486-89D8-CC29FDC2DEC5}.ChaosVmEmulationDebug|Win32.Build.0 = Debug|Win32
+		{41697B9B-20D3-4486-89D8-CC29FDC2DEC5}.ChaosVmEmulationRelease|Win32.ActiveCfg = Release|Win32
+		{41697B9B-20D3-4486-89D8-CC29FDC2DEC5}.ChaosVmEmulationRelease|Win32.Build.0 = Release|Win32
+		{41697B9B-20D3-4486-89D8-CC29FDC2DEC5}.ChaosVmEmulationReleaseWithDbgPrint|Win32.ActiveCfg = Release|Win32
+		{41697B9B-20D3-4486-89D8-CC29FDC2DEC5}.ChaosVmEmulationReleaseWithDbgPrint|Win32.Build.0 = Release|Win32
+		{41697B9B-20D3-4486-89D8-CC29FDC2DEC5}.ChaosVmLdrReleaseWithDbgStep|Win32.ActiveCfg = Release|Win32
+		{41697B9B-20D3-4486-89D8-CC29FDC2DEC5}.ChaosVmLdrReleaseWithDbgStep|Win32.Build.0 = Release|Win32
+		{41697B9B-20D3-4486-89D8-CC29FDC2DEC5}.ChaosVmpReleaseWithDbgPrint|Win32.ActiveCfg = Release|Win32
+		{41697B9B-20D3-4486-89D8-CC29FDC2DEC5}.ChaosVmpReleaseWithDbgPrint|Win32.Build.0 = Release|Win32
+		{41697B9B-20D3-4486-89D8-CC29FDC2DEC5}.ChaosVmReleaseWithDbgPrint|Win32.ActiveCfg = Release|Win32
+		{41697B9B-20D3-4486-89D8-CC29FDC2DEC5}.ChaosVmReleaseWithDbgPrint|Win32.Build.0 = Release|Win32
+		{41697B9B-20D3-4486-89D8-CC29FDC2DEC5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{41697B9B-20D3-4486-89D8-CC29FDC2DEC5}.Debug|Win32.Build.0 = Debug|Win32
+		{41697B9B-20D3-4486-89D8-CC29FDC2DEC5}.Release|Win32.ActiveCfg = Release|Win32
+		{41697B9B-20D3-4486-89D8-CC29FDC2DEC5}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

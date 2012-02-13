@@ -350,7 +350,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="cmd /c copy $(ProjectDir)*.h $(SolutionDir)inc"
+				CommandLine="cmd /c copy $(ProjectDir)*.h $(SolutionDir)inc&#x0D;&#x0A;cmd /c copy $(TargetPath) $(SolutionDir)..\public\$(TargetFileName)"
 			/>
 		</Configuration>
 		<Configuration
