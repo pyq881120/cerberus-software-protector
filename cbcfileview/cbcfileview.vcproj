@@ -148,6 +148,7 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)lib"
 				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(OutDir)/$(ProjectName).pdb"
 				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
