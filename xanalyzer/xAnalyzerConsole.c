@@ -177,12 +177,13 @@ __void __INTERNAL_FUNC__ Usage() {
 	printf("\t/output flowchart(ofc)\n");
 	printf("\n");
 
-	printf("-monitor [monitor options]\n");
+	printf("-monitor <target program> <analyze result file> [monitor options]\n");
 	printf("[monitor options]\n");
 	printf("\tmonitoring api(mapi) <api1,api2,...>\n");
 	printf("\tmonitoring procedure(mproc) <proc1,proc2,...>\n");
 	printf("\tmonitoring all procedure(maproc)\n");
 	printf("\tmonitoring all api(maapi)\n");
+	printf("\tmonitoring all call(macall)\n");
 
 	printf("-setting [setting options]\n");
 	printf("[setting options]\n");
@@ -342,6 +343,16 @@ __integer __INTERNAL_FUNC__ HandleArguments(__integer iArgc, __tchar *pArgv[], P
 					pxAnalyzeConfigure->AnalyzeConfigure.bCodeMixSize = (__byte)iMixCodeSize;
 				} else if (_tcsicmp(&pCurrArgv[1], _T("monitor")) == 0) {
 					pxAnalyzeConfigure->bEnableMonitor = TRUE;
+				
+					// 获取目标程序文件名
+					i++;
+					pCurrArgv = pArgv[i];
+					_tcscpy(pxAnalyzeConfigure->MonitorConfigure.szProgramName, pCurrArgv);
+
+					// 获取分析文件名称
+					i++;
+					pCurrArgv = pArgv[i];
+					_tcscpy(pxAnalyzeConfigure->MonitorConfigure.szAnalyzeFileName, pCurrArgv);
 				} else if (_tcsicmp(&pCurrArgv[1], _T("mapi")) == 0) {
 					__char szAPI[0x20] = {0};
 					__char szAPIs[1024] = {0};
@@ -366,6 +377,8 @@ __integer __INTERNAL_FUNC__ HandleArguments(__integer iArgc, __tchar *pArgv[], P
 					pxAnalyzeConfigure->MonitorConfigure.iProcMonitorCount = 0xFFFFFFFF;
 				} else if (_tcsicmp(&pCurrArgv[1], _T("maapi")) == 0) {
 					pxAnalyzeConfigure->MonitorConfigure.iIatMonitorCount = 0xFFFFFFFF;
+				} else if (_tcsicmp(&pCurrArgv[1], _T("macall")) == 0) {
+					pxAnalyzeConfigure->MonitorConfigure.bAllCall = TRUE;
 				} else {
 					Usage();
 					return 0;
@@ -468,6 +481,7 @@ __integer _tmain(__integer iArgc, __tchar *pArgv[]) {
 	_stprintf(g_szDumpResultFilePath, _T("%s%s"), g_xAnalyzeConfigure.szResultDirPath, __DUMP_OUTPUT_FILE_NAME__);
 	_stprintf(g_szDisAsmResultFilePath, _T("%s%s"), g_xAnalyzeConfigure.szResultDirPath, __DISASM_OUTPUT_FILE_NAME__);
 	_stprintf(g_szAnalyzeResultFilePath, _T("%s%s"), g_xAnalyzeConfigure.szResultDirPath, __ANALYZE_OUTPUT_FILE_NAME__);
+	_stprintf(g_szMonitorResultFilePath, _T("%s%s"), g_xAnalyzeConfigure.szResultDirPath, __MONITOR_OUTPUT_FILE_NAME__);
 
 	// 映射目标文件
 	Target.szTargetFilePath = pTargetFilePath;
@@ -499,6 +513,13 @@ __integer _tmain(__integer iArgc, __tchar *pArgv[]) {
 	if (g_xAnalyzeConfigure.bEnableAnalyze) {
 		if (!Analyze(&Target, g_xAnalyzeConfigure.szResultDirPath, g_szAnalyzeResultFilePath, &(g_xAnalyzeConfigure.AnalyzeConfigure))) {
 			// 分析程序失败
+		}
+	}
+
+	if (g_xAnalyzeConfigure.bEnableMonitor) {
+		XFileReleaseXFileAttach(&Target);
+		if (!Monitor(g_szMonitorResultFilePath, &(g_xAnalyzeConfigure.MonitorConfigure))) {
+			// 监视程序失败
 		}
 	}
 

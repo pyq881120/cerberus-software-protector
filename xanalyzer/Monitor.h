@@ -19,8 +19,13 @@ typedef struct _MONITOR_CONFIGURE {
 
 	__integer iProcMonitorCount;//函数的个数
 	PPROC_MONITOR_ITEM pProcMonitorItems;
+
+	__bool bAllCall;//监视所有的CALL指令
+
+	__tchar szProgramName[MAX_PATH];//要分析程序的名称
+	__tchar szAnalyzeFileName[MAX_PATH];//分析文件结果名称
 } MONITOR_CONFIGURE, *PMONITOR_CONFIGURE;
 
-__bool __INTERNAL_FUNC__ Monitor(__memory pMem, __tchar *pResultFilePath, PMONITOR_CONFIGURE pConfigure);
+__bool __INTERNAL_FUNC__ Monitor(__tchar *pResultFilePath, PMONITOR_CONFIGURE pConfigure);
 
 #endif
