@@ -113,7 +113,7 @@ BOOL xDetorusGlobalInit() {
 		__Log2File__("g_LibConfigureList = (PXDETOURS_LIB_CONFIGURE)GlobalAlloc(GPTR, sizeof(XDETOURS_LIB_CONFIGURE) * __MAX_DETOURS_LIB__); failed\r\n", 0);
 		return FALSE;
 	}
-	
+
 	return TRUE;
 }
 
@@ -146,7 +146,7 @@ BOOL xDetorusStart() {
 				g_pTrampoline[i][j] = pTrampoline;
 			}
 		}
-		
+
 		// 将Trampoline复制给对方
 		memcpy_s(g_dwLibTrampoline[i], sizeof(PDETOUR_TRAMPOLINE) * g_LibConfigureList[i].dwProcCount, &g_pTrampoline[i], sizeof(PDETOUR_TRAMPOLINE) * g_LibConfigureList[i].dwProcCount);
 	}

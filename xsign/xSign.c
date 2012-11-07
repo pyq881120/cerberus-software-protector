@@ -8,6 +8,7 @@ __void __INTERNAL_FUNC__ Usage() {
 	printf("usage:xsign [options] <filepath>\r\n");
 	printf("[options]\r\n");
 	printf("/code calc code crc32(cc)\r\n");
+	printf("/code calc static code crc32(csc)\r\n");
 }
 
 __dword CalcCodeCrc32(__memory pMem) {

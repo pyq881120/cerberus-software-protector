@@ -11,6 +11,8 @@
 #include <string>
 #include <io.h>
 
+#include "xdetours"
+
 //#include "Support.cpp"
 
 using namespace std;

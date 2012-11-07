@@ -207,3 +207,76 @@ __tchar * __API__ GetLocalPath(HMODULE hMod, __tchar *szPath) {
 
 	return szPath;
 }
+
+__bool __API__ FindProcessModules(__dword dwPID, __tchar *pModuleName) {
+	HANDLE hModuleSnap = INVALID_HANDLE_VALUE;
+	MODULEENTRY32 me32;
+
+	// Take a snapshot of all modules in the specified process.
+	hModuleSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, dwPID);
+	if (hModuleSnap == INVALID_HANDLE_VALUE)
+		return FALSE;
+
+	me32.dwSize = sizeof( MODULEENTRY32 );
+
+	if (!Module32First(hModuleSnap, &me32)) {
+		CloseHandle(hModuleSnap);
+		return FALSE;
+	}
+
+	do {
+		if (_tcsicmp(pModuleName, me32.szModule) == 0)
+			return TRUE;
+	} while (Module32Next(hModuleSnap, &me32));
+
+	CloseHandle(hModuleSnap);
+	return FALSE;
+}
+
+// xInject.c文件为以下函数提供实现内容
+#include "xInject.c"
+__bool __API__ InsertRemoteThread(__tchar *szTargetProcess, __tchar *szDllPath) {
+
+	HANDLE hProcessSnap = 0;
+	PROCESSENTRY32 pe32 = {0};
+	__tchar szModuleName[0x20] = {0};
+
+	// 获取模块名
+	_tcscpy(szModuleName, _tcsrchr(szDllPath, _T('\\')) + 1);
+
+	__try
+	{
+		EnableAllPrivilege();//提权
+
+		// 创建
+		hProcessSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+		if (INVALID_HANDLE_VALUE == hProcessSnap) {
+			__leave;
+		}
+		pe32.dwSize = sizeof(PROCESSENTRY32);
+
+		// 枚举第一个进程
+		if (!Process32First(hProcessSnap, &pe32))
+			__leave;
+
+		// 枚举其它进程
+		do {
+			// 判断是否运行
+			if (_tcsicmp(szTargetProcess, pe32.szExeFile) == 0) {
+				if (FindProcessModules(pe32.th32ProcessID, szModuleName) == FALSE) {
+						if (InjectDll(szDllPath, pe32.th32ProcessID) == TRUE) {
+							return TRUE;
+						} else {
+							return FALSE;
+						}
+					}
+				}/* end if */
+		} while (Process32Next(hProcessSnap, &pe32));
+	}
+	__finally
+	{
+		if (hProcessSnap) CloseHandle(hProcessSnap);
+	}
+
+	return FALSE;
+}

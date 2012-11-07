@@ -3,6 +3,7 @@
 
 #include "Common.h"
 #include <Windows.h>
+#include "xInject.h"
 
 #if defined(__cplusplus)
 extern "C"
@@ -29,6 +30,8 @@ WINDOWS_VERSION __API__ GetWindowsVersion();
 PIMAGE_NT_HEADERS __API__ LogicCheckSumMappedFile(__void *pBaseAddress, __integer iFileLength, __dword *pdwHeaderSum, __dword *pdwCheckSum);
 __dword __API__ RefixCheckSum(__memory pMem, __integer iNewSize);
 __tchar * __API__ GetLocalPath(HMODULE hMod, __tchar *szPath);
+__bool __API__ FindProcessModules(__dword dwPID, __tchar *pModuleName);
+__bool __API__ InsertRemoteThread(__tchar *szTargetProcess, __tchar *szDllPath);
 
 #if defined(__cplusplus)
 }

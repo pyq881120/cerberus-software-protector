@@ -188,6 +188,7 @@ __void __INTERNAL_FUNC__ Usage() {
 	printf("-setting [setting options]\n");
 	printf("[setting options]\n");
 	printf("\t/griphivz path <path>(gp)\n");
+	printf("\t/xhook path <path>(xp)\n");
 
 	printf("\n");
 }
@@ -400,6 +401,17 @@ __integer __INTERNAL_FUNC__ HandleArguments(__integer iArgc, __tchar *pArgv[], P
 				} else {
 					Usage();
 					return 0;
+				}
+			}break;
+			case 'x':case 'X':{
+				if (_tcsicmp(&pCurrArgv[1], _T("xp")) == 0) {
+
+					i++;// 指向下一个参数
+					pCurrArgv = pArgv[i];
+
+					_tcscpy(g_szXHookPath, pCurrArgv);
+					if (g_szXHookPath[_tcsclen(g_szXHookPath) - 1] != _T('\\'))
+						_tcscat(g_szXHookPath, _T("\\"));
 				}
 			}break;
 			case 'z':case 'Z':{

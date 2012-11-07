@@ -2,6 +2,7 @@
 #define __MONITOR_H__
 
 #include "Common.h"
+#include "Support.h"
 
 typedef struct _IAT_MONITOR_ITEM {
 	struct _IAT_MONITOR_ITEM *pNext;
