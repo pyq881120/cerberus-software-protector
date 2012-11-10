@@ -2,6 +2,8 @@
 //
 
 #include "stdafx.h"
+#include <vector>
+using namespace std;
 
 BOOL g_LoadIt = FALSE;
 

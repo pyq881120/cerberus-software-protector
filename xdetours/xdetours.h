@@ -1,6 +1,10 @@
 #if !defined(__XDETOURS_H__)
 #define __XDETOURS_H__
 
+// 一个服务库可以支持无限数量的HOOK函数
+// 可以HOOK API,也可以对指定的地址进行HOOK
+// 对目标HOOK可以无限
+
 #define __CONFIGURE_FILE_NAME__							_T("xd_config.cfg")
 #define __XDETOURS_CONFIGURE_FILE_KEY__					0x99
 #define __MAX_DETOURS_LIB__								0x08							//可以提供服务的库最大数量
@@ -14,9 +18,21 @@ typedef struct _XDETOURS_CONFIGURE {
 	TCHAR LibNames[__MAX_DETOURS_LIB__][__MAX_DETOURS_LIB_NAME_SIZE__];
 } XDETOURS_CONFIGURE, *PXDETOURS_CONFIGURE;
 
-typedef struct __XDETOURS_TARGET {
+typedef struct _XDETOURS_TARGET_API {
 	TCHAR LibName[__MAX_DETOURS_LIB_NAME_SIZE__];
 	CHAR ProcName[__MAX_DETOURS_PROC_NAME_SIZE__];
+} XDETOURS_TARGET_API, *PXDETOURS_TARGET_API;
+
+typedef struct _XDETOURS_TARGET_PROC {
+	DWORD dwAddress;
+} XDETOURS_TARGET_PROC, *PXDETOURS_TARGET_PROC;
+
+#define __TYEP_HOOK_API__				1
+#define __TYEP_HOOK_PROC__				2
+typedef struct _XDETOURS_TARGET {
+	DWORD dwType;
+	XDETOURS_TARGET_API Api;
+	XDETOURS_TARGET_PROC Procedure;
 } XDETOURS_TARGET, *PXDETOURS_TARGET;
 
 typedef struct _XDETOURS_LIB_CONFIGURE {
@@ -32,6 +48,7 @@ typedef struct _XDETOURS_LIB_CONFIGURE {
 typedef struct _XDETOURS_CONFIGURE_FILE {
 	XDETOURS_CONFIGURE Names;															//服务库路径
 	XDETOURS_LIB_CONFIGURE Info[__MAX_DETOURS_LIB__];									//服务库信息
+	BOOL bHookAllImportTable;															//HOOK所有引入表的函数
 } XDETOURS_CONFIGURE_FILE, *PXDETOURS_CONFIGURE_FILE;
 
 #endif
